@@ -1,12 +1,12 @@
 "use client";
 
-import Blog from "@/components/Blog/blog-list";
+import BlogList from "@/components/Blog/blog-list";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import { fetchAPI } from "@/lib/fetch-api";
 import { MetaPost } from "@/lib/model";
 import { useCallback, useEffect, useState } from "react";
 
-const Resources = () => {
+const CategoryRoute = ({ params }: { params: { category: string } }) => {
 	const [meta, setMeta] = useState<MetaPost | undefined>();
 	const [data, setData] = useState<any>([]);
 	const [isLoading, setLoading] = useState(true);
@@ -17,6 +17,11 @@ const Resources = () => {
 			const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
 			const path = `/resources`;
 			const urlParamsObject = {
+				filters: {
+					category: {
+						slug: params.category,
+					},
+				},
 				sort: { createdAt: "desc" },
 				populate: {
 					author: { fields: ["username"] },
@@ -65,14 +70,14 @@ const Resources = () => {
 		<>
 			<Breadcrumb
 				pageName="Ressources"
-				description="Rechercher des ressources selon vos besoins"
+				description={`Rechercher des ressources dans la catégorie : ${data[0].attributes.category.data?.attributes.name}`}
 			/>
 
 			<section className="pt-[120px] pb-[120px]">
 				<div className="container">
-					<Blog data={data}>
-						{meta?.pagination.start + meta?.pagination.limit <
-							meta?.pagination.total && (
+					<BlogList data={data}>
+						{meta!.pagination.start + meta!.pagination.limit <
+							meta!.pagination.total && (
 							<div className="mt-10 flex justify-center">
 								<button
 									type="button"
@@ -83,11 +88,11 @@ const Resources = () => {
 								</button>
 							</div>
 						)}
-					</Blog>
+					</BlogList>
 				</div>
 			</section>
 		</>
 	);
 };
 
-export default Resources;
+export default CategoryRoute;
