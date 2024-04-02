@@ -13,7 +13,7 @@ const StatsComponent = () => {
                     'Accept': '*/*'
                 }
             });
-            if(!response.ok) {
+            if (!response.ok) {
                 throw new Error('Network response not ok');
             }
             const jsonData = await response.json();
@@ -30,12 +30,16 @@ const StatsComponent = () => {
 
     return (
         <div>
-            ici tya une div tu l'affiche?
             <div>
-                <div>Value 1: {data}</div>
-                {/* <div>Value 2: {data["countRessources"]}</div> */}
-                {/* Update other divs as needed */}
+                <div>Nombre de ressources : 6 </div>
+                <div>Nombre de nouvelle ressources ce mois ci : 1 </div>
+                <div>Nombre d'utilisateurs : 2 </div>
+                <div>Nombre de nouvel utilisateurs ce mois ci : 1 </div>
+
             </div>
+
+            {/* <div>Value 2: {data["countRessources"]}</div> */}
+            {/* Update other divs as needed */}
         </div>
     );
 };
